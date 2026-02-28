@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useDropdownPosition } from '../../hooks/useDropdownPosition';
 import type { DropdownUIProps } from './types';
 import styles from './DropdownUI.module.css';
@@ -6,50 +6,49 @@ import styles from './DropdownUI.module.css';
 export const DropdownUI: React.FC<DropdownUIProps> = ({
   trigger,
   children,
-  initialStateOpen = false,
-  // onClick,
+  // initialStateOpen = false,
   className,
   dropdownClassName,
+  isDropdownOpen,
+  onClick,
   maxWidth = 260,
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(initialStateOpen);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(initialStateOpen);
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  const position = useDropdownPosition({
+  const { position, isTriggerVisible } = useDropdownPosition({
     triggerRef,
     dropdownRef,
     isDropdownOpen,
-    hideDropdown: () => setIsDropdownOpen(false),
-    showDropdown: () => setIsDropdownOpen(true),
     contentWidth: maxWidth,
   });
 
-  const handleTriggerClick = () => {
-    console.log('trigger is clicked!');
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  // const handleTriggerClick = () => {
+  //   console.log('trigger is clicked!');
+  //   setIsDropdownOpen(!isDropdownOpen);
+  // };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!isDropdownOpen) return;
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isDropdownOpen) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleEscKey);
-    return () => {
-      document.addEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscKey);
-    };
-  }, [isDropdownOpen]);
+  // useEffect(() => {
+  // const handleClickOutside = (event: MouseEvent) => {
+  //   if (!isDropdownOpen) return;
+  //   if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+  //     setIsDropdownOpen(false);
+  //   }
+  // };
+  // const handleEscKey = (event: KeyboardEvent) => {
+  //   if (event.key === 'Escape' && isDropdownOpen) {
+  //     setIsDropdownOpen(false);
+  //   }
+  // };
+  // document.addEventListener('click', handleClickOutside);
+  // document.addEventListener('keydown', handleEscKey);
+  // return () => {
+  // document.addEventListener('click', handleClickOutside);
+  // document.removeEventListener('keydown', handleEscKey);
+  //   };
+  // }, [isDropdownOpen]);
 
   return (
     <div
@@ -59,7 +58,7 @@ export const DropdownUI: React.FC<DropdownUIProps> = ({
     >
       <div
         className={styles.trigger}
-        onClick={handleTriggerClick}
+        onClick={onClick}
         ref={triggerRef}
         // role="button"
         // aria-haspopup="true"
@@ -78,6 +77,7 @@ export const DropdownUI: React.FC<DropdownUIProps> = ({
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
+            visibility: isTriggerVisible ? 'visible' : 'hidden',
           }}
           // role="menu"
           // aria-hidden={!isOpen}

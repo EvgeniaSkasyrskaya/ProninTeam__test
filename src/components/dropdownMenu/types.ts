@@ -19,9 +19,11 @@ export type ElementSize = {
 export interface DropdownUIProps {
   trigger: ReactNode;
   children: ReactNode;
-  initialStateOpen?: boolean;
-  onClick?: () => void;
+  id?: string;
   className?: string;
   dropdownClassName?: string;
+  initialStateOpen?: boolean;
+  isDropdownOpen: boolean;
+  onClick?: () => void;
   maxWidth?: number;
 }

@@ -11,8 +11,6 @@ interface UseDropdownPositionProps {
   triggerRef: React.RefObject<HTMLElement | null>;
   dropdownRef: React.RefObject<HTMLElement | null>;
   isDropdownOpen: boolean;
-  hideDropdown: () => void;
-  showDropdown: () => void;
   contentWidth?: number;
   viewportMargin?: number;
 }
@@ -26,6 +24,7 @@ export const useDropdownPosition = ({
     top: 0,
     left: 0,
   });
+  const [isTriggerVisible, setIsTriggerVisible] = useState<boolean>(true);
   const rafRef = useRef<number>(undefined);
 
   const calculatePosition = useCallback(() => {
@@ -33,37 +32,25 @@ export const useDropdownPosition = ({
 
     const trigger = triggerRef.current.getBoundingClientRect();
     // console.log('положение триггера', trigger);
-    const dropdown: ElementSize = {
-      width: dropdownRef.current?.getBoundingClientRect().width ?? 0,
-      height: dropdownRef.current?.getBoundingClientRect().height ?? 0,
-    };
+
     const viewport: ElementSize = {
       width: window.innerWidth,
       height: window.innerHeight,
     };
-    // console.log(
-    //   'размеры вьюпорта: ширина - ',
-    //   viewport.width,
-    //   'высота - ',
-    //   viewport.height
-    // );
-    // console.log(
-    //   'высота дропдауна - ',
-    //   dropdown.height,
-    //   'ширина дропдауна - ',
-    //   dropdown.width
-    // );
 
-    const isTriggerVisible =
+    const triggerVisibility: boolean =
       trigger.top >= 0 &&
       trigger.left >= 0 &&
       trigger.bottom <= viewport.height &&
       trigger.right <= viewport.width;
 
-    if (!isTriggerVisible || !isDropdownOpen) {
-      return;
-    }
-    // } else {
+    setIsTriggerVisible(triggerVisibility);
+    if (!triggerVisibility) return;
+
+    const dropdown: ElementSize = {
+      width: dropdownRef.current?.getBoundingClientRect().width ?? 0,
+      height: dropdownRef.current?.getBoundingClientRect().height ?? 0,
+    };
 
     const spaceBottom = viewport.height - trigger.bottom;
     const spaceTop = trigger.top;
@@ -131,7 +118,7 @@ export const useDropdownPosition = ({
       rafRef.current = requestAnimationFrame(calculatePosition);
     };
 
-    calculatePosition();
+    rafRef.current = requestAnimationFrame(calculatePosition);
     window.addEventListener('scroll', handleScroll, true);
     window.addEventListener('resize', handleScroll);
 
@@ -144,5 +131,5 @@ export const useDropdownPosition = ({
     };
   }, [isDropdownOpen, calculatePosition]);
 
-  return position;
+  return { position, isTriggerVisible };
 };
