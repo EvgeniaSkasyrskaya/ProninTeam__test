@@ -1,0 +1,40 @@
+:root {
+  --dropdown-max-width: 260px;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  left: 500px;
+  top: 600px;
+}
+
+.trigger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: lightgray;
+  height: 36px;
+  width: 36px;
+  border-radius: 5px;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid gray;
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 1;
+  width: var(--dropdown-max-width);
+  min-height: 100px;
+  background: lightblue;
+  border-radius: 5px;
+  pointer-events: auto;
+  display: flex;
+}
+
+.content {
+  padding: 10px;
+}
