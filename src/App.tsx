@@ -38,6 +38,16 @@ function App() {
     // console.log('activeDropdown - ', activeDropdown);
   };
 
+  const handleItemClick = (originalOnClick: () => void) => {
+    originalOnClick();
+    setActiveDropdown(null);
+  };
+
+  const menuItemsForDropdown = menuItems.map((item) => ({
+    ...item,
+    onClick: () => handleItemClick(item.onClick),
+  }));
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (activeDropdown === null) return;
@@ -53,7 +63,7 @@ function App() {
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('keydown', handleEscKey);
     return () => {
-      document.addEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscKey);
     };
   }, [activeDropdown]);
@@ -64,7 +74,7 @@ function App() {
         <DropdownUI
           className={'left-dropdown'}
           trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItems} />}
+          children={<MenuItemsList items={menuItemsForDropdown} />}
           id={'left-dropdown'}
           isDropdownOpen={activeDropdown === 'left-dropdown'}
           onClick={() => handleDropdownToggle('left-dropdown')}
@@ -72,7 +82,7 @@ function App() {
         <DropdownUI
           className={'center-dropdown'}
           trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItems} />}
+          children={<MenuItemsList items={menuItemsForDropdown} />}
           id={'center-dropdown'}
           isDropdownOpen={activeDropdown === 'center-dropdown'}
           onClick={() => handleDropdownToggle('center-dropdown')}
@@ -80,7 +90,7 @@ function App() {
         <DropdownUI
           className={'right-dropdown'}
           trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItems} />}
+          children={<MenuItemsList items={menuItemsForDropdown} />}
           id={'right-dropdown'}
           isDropdownOpen={activeDropdown === 'right-dropdown'}
           onClick={() => handleDropdownToggle('right-dropdown')}
