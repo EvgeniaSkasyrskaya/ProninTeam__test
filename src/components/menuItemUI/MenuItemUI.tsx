@@ -18,7 +18,6 @@ export const MenuItemUI: React.FC<MenuItemUIProps> = ({ label, icon, onClick, cl
       <button className={styles.menuItem__button} onClick={onClick}>
         <p className={styles.menuItem__text}>{label}</p>
         <div className={styles.menuItem__icon}>{icon}</div>
-        {icon}
       </button>
     </li>
   );
