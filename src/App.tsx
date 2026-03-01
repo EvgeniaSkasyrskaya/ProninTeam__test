@@ -69,32 +69,32 @@ function App() {
 
   return (
     <main>
-      <section ref={sectionRef}>
-        <DropdownUI
-          className={'left-dropdown'}
-          trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItemsForDropdown} />}
-          id={'left-dropdown'}
-          isDropdownOpen={activeDropdown === 'left-dropdown'}
-          onClick={() => handleDropdownToggle('left-dropdown')}
-        />
-        <DropdownUI
-          className={'center-dropdown'}
-          trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItemsForDropdown} />}
-          id={'center-dropdown'}
-          isDropdownOpen={activeDropdown === 'center-dropdown'}
-          onClick={() => handleDropdownToggle('center-dropdown')}
-        />
-        <DropdownUI
-          className={'right-dropdown'}
-          trigger={<MoreVertical />}
-          children={<MenuItemsList items={menuItemsForDropdown} />}
-          id={'right-dropdown'}
-          isDropdownOpen={activeDropdown === 'right-dropdown'}
-          onClick={() => handleDropdownToggle('right-dropdown')}
-        />
-      </section>
+      {/* <section> */}
+      <DropdownUI
+        className={'left-dropdown'}
+        trigger={<MoreVertical />}
+        children={<MenuItemsList items={menuItemsForDropdown} />}
+        id={'left-dropdown'}
+        isDropdownOpen={activeDropdown === 'left-dropdown'}
+        onClick={() => handleDropdownToggle('left-dropdown')}
+      />
+      <DropdownUI
+        className={'center-dropdown'}
+        trigger={<MoreVertical />}
+        children={<MenuItemsList items={menuItemsForDropdown} />}
+        id={'center-dropdown'}
+        isDropdownOpen={activeDropdown === 'center-dropdown'}
+        onClick={() => handleDropdownToggle('center-dropdown')}
+      />
+      <DropdownUI
+        className={'right-dropdown'}
+        trigger={<MoreVertical />}
+        children={<MenuItemsList items={menuItemsForDropdown} />}
+        id={'right-dropdown'}
+        isDropdownOpen={activeDropdown === 'right-dropdown'}
+        onClick={() => handleDropdownToggle('right-dropdown')}
+      />
+      {/* </section> */}
     </main>
   );
 }
