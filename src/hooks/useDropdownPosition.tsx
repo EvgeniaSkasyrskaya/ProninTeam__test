@@ -25,6 +25,7 @@ export const useDropdownPosition = ({
     left: 0,
   });
   const [isTriggerVisible, setIsTriggerVisible] = useState<boolean>(true);
+  const [isPositioned, setIsPositioned] = useState<boolean>(false);
   const rafRef = useRef<number>(undefined);
 
   const calculatePosition = useCallback(() => {
@@ -106,10 +107,13 @@ export const useDropdownPosition = ({
     //   'реальное положение дропдауна - ',
     //   dropdownRef.current?.getBoundingClientRect()
     // );
+    setIsPositioned(true);
   }, [dropdownRef, triggerRef, isDropdownOpen]);
 
   useLayoutEffect(() => {
-    if (!isDropdownOpen) return;
+    if (!isDropdownOpen) {
+      return;
+    }
 
     const handleScroll = () => {
       if (rafRef.current) {
@@ -128,8 +132,9 @@ export const useDropdownPosition = ({
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
+      setIsPositioned(false);
     };
   }, [isDropdownOpen, calculatePosition]);
 
-  return { position, isTriggerVisible };
+  return { position, isTriggerVisible, isPositioned };
 };

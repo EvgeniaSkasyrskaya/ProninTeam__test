@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useDropdownPosition } from '../../hooks/useDropdownPosition';
 import type { DropdownUIProps } from './types';
 import styles from './DropdownUI.module.css';
@@ -12,13 +12,13 @@ export const DropdownUI: React.FC<DropdownUIProps> = ({
   isDropdownOpen,
   onClick,
   maxWidth = 260,
-}) => {
+}: DropdownUIProps) => {
   // const [isDropdownOpen, setIsDropdownOpen] = useState(initialStateOpen);
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  const { position, isTriggerVisible } = useDropdownPosition({
+  const { position, isTriggerVisible, isPositioned } = useDropdownPosition({
     triggerRef,
     dropdownRef,
     isDropdownOpen,
@@ -77,7 +77,7 @@ export const DropdownUI: React.FC<DropdownUIProps> = ({
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
-            visibility: isTriggerVisible ? 'visible' : 'hidden',
+            visibility: isTriggerVisible && isPositioned ? 'visible' : 'hidden',
           }}
           // role="menu"
           // aria-hidden={!isOpen}
