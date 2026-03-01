@@ -31,8 +31,17 @@ const config: JestConfigWithTsJest = {
     ],
   },
   collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}', // Проверяем все TS/TSX в src
+    '!src/**/*.d.ts', // Игнорируем файлы определений типов
+    '!src/main.tsx', // Игнорируем точку входа (там обычно только render)
+    '!src/vite-env.d.ts', // Игнорируем конфиги Vite
+    '!src/**/types.ts', // Игнорируем файлы, где только интерфейсы
+    '!src/**/index.ts', // Игнорируем ре-экспорты
+  ],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+  coverageReporters: ['text', 'lcov'],
 };
 
 export default config;
