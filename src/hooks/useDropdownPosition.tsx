@@ -1,10 +1,4 @@
-import {
-  useState,
-  //   useEffect,
-  useLayoutEffect,
-  useCallback,
-  useRef,
-} from 'react';
+import { useState, useLayoutEffect, useCallback, useRef } from 'react';
 import type { DropdownSide, DropdownPosition, ElementSize } from '../components/dropdownMenu/types';
 
 interface UseDropdownPositionProps {
@@ -32,7 +26,6 @@ export const useDropdownPosition = ({
     if (!triggerRef.current || !isDropdownOpen) return;
 
     const trigger = triggerRef.current.getBoundingClientRect();
-    // console.log('положение триггера', trigger);
 
     const viewport: ElementSize = {
       width: window.innerWidth,
@@ -46,21 +39,23 @@ export const useDropdownPosition = ({
       trigger.right <= viewport.width;
 
     setIsTriggerVisible(triggerVisibility);
+    setIsPositioned(true);
     if (!triggerVisibility) return;
 
+    const dropdownEl = dropdownRef.current;
+    if (!dropdownEl) return;
+
     const dropdown: ElementSize = {
-      width: dropdownRef.current?.getBoundingClientRect().width ?? 0,
-      height: dropdownRef.current?.getBoundingClientRect().height ?? 0,
+      width: dropdownEl.getBoundingClientRect().width,
+      height: dropdownEl.getBoundingClientRect().height,
     };
+
+    if (dropdown.width === 0 && isDropdownOpen) return;
 
     const spaceBottom = viewport.height - trigger.bottom;
     const spaceTop = trigger.top;
     const spaceRight = viewport.width - trigger.right;
     const spaceLeft = trigger.left;
-    // console.log('пространство внизу - ', spaceBottom);
-    // console.log('пространство вверху - ', spaceTop);
-    // console.log('пространство справа - ', spaceRight);
-    // console.log('пространство слева - ', spaceLeft);
 
     let bestSide: DropdownSide = 'bottom-right';
 
@@ -73,7 +68,6 @@ export const useDropdownPosition = ({
     } else if (spaceLeft > spaceRight && spaceTop > spaceBottom) {
       bestSide = 'top-left';
     }
-    // console.log('лучшая сторона - ', bestSide);
 
     let top = 0;
     let left = 0;
@@ -102,11 +96,6 @@ export const useDropdownPosition = ({
       return { top, left };
     });
 
-    // console.log('позиция для дропдауна - ', top, left);
-    // console.log(
-    //   'реальное положение дропдауна - ',
-    //   dropdownRef.current?.getBoundingClientRect()
-    // );
     setIsPositioned(true);
   }, [dropdownRef, triggerRef, isDropdownOpen]);
 
