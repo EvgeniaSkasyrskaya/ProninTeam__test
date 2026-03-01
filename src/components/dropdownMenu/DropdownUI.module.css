@@ -27,7 +27,7 @@
   z-index: 1;
   width: var(--dropdown-max-width);
   min-height: 100px;
-  background: lightblue;
+  background: white;
   border-radius: 5px;
   pointer-events: auto;
   display: flex;

@@ -8,21 +8,21 @@ import { MenuItemsList } from './components/menuItemsList';
 const menuItems: MenuItemUIProps[] = [
   {
     label: 'Поделиться в социальных сетях',
-    icon: <Share2 stroke={'green'} />,
+    icon: <Share2 />,
     onClick: () => {
       console.log('ссылка на контент отправлена!');
     },
   },
   {
     label: 'Редактировать страницу',
-    icon: <Edit size={'30'} />,
+    icon: <Edit />,
     onClick: () => {
       console.log('страница редактирована!');
     },
   },
   {
     label: 'Удалить страницу',
-    icon: <Trash2 fill={'antiquewhite'} />,
+    icon: <Trash2 />,
     onClick: () => {
       console.log('страница удалена!');
     },
@@ -35,7 +35,6 @@ function App() {
 
   const handleDropdownToggle = (dropdownId: string) => {
     setActiveDropdown((current) => (current === dropdownId ? null : dropdownId));
-    // console.log('activeDropdown - ', activeDropdown);
   };
 
   const handleItemClick = (originalOnClick: () => void) => {

@@ -1,10 +1,10 @@
 section {
-  width: 100vw;
+  width: 1200px;
   display: flex;
 }
 
 .left-dropdown {
-  top: 1500px;
+  top: 500px;
   left: 10px;
 }
 
