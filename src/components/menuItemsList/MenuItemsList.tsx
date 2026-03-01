@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './MenuItemsList.module.css';
 import { MenuItemUI, type MenuItemUIProps } from '../menuItemUI';
 
@@ -12,7 +11,10 @@ export const MenuItemsList: React.FC<MenuItemsListProps> = ({
   items,
 }: MenuItemsListProps) => {
   return (
-    <ul className={className && styles.menuList}>
+    <ul
+      className={className ? `${styles.menuList} ${className}` : styles.menuList}
+      data-testid="menu-list"
+    >
       {items.map((item) => (
         <MenuItemUI key={item.label} label={item.label} icon={item.icon} onClick={item.onClick} />
       ))}

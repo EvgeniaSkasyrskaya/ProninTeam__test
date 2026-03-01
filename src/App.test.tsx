@@ -83,14 +83,31 @@ describe('App Integration Tests', () => {
     render(<App />);
     const triggers = screen.getAllByTestId('trigger');
     fireEvent.click(triggers[0]);
-    const menuItem = screen.getByText(/Редактировать страницу/i);
+    const menuItem1 = screen.getByText(/Поделиться/i);
     await waitFor(() => {
-      expect(menuItem).toBeInTheDocument();
+      expect(menuItem1).toBeInTheDocument();
     });
+    fireEvent.click(menuItem1);
+    expect(consoleSpy).toHaveBeenCalledWith('ссылка на контент отправлена!');
+    expect(screen.queryByText(/Поделиться/i)).not.toBeInTheDocument();
 
-    fireEvent.click(menuItem);
+    fireEvent.click(triggers[0]);
+    const menuItem2 = screen.getByText(/Редактировать/i);
+    await waitFor(() => {
+      expect(menuItem2).toBeInTheDocument();
+    });
+    fireEvent.click(menuItem2);
     expect(consoleSpy).toHaveBeenCalledWith('страница редактирована!');
     expect(screen.queryByText(/Редактировать страницу/i)).not.toBeInTheDocument();
+
+    fireEvent.click(triggers[0]);
+    const menuItem3 = screen.getByText(/Удалить/i);
+    await waitFor(() => {
+      expect(menuItem3).toBeInTheDocument();
+    });
+    fireEvent.click(menuItem3);
+    expect(consoleSpy).toHaveBeenCalledWith('страница удалена!');
+    expect(screen.queryByText(/Удалить/i)).not.toBeInTheDocument();
     consoleSpy.mockRestore();
   });
 });

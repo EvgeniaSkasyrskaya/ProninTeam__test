@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { DropdownUI } from './DropdownUI';
+import { MenuItemsList } from '../menuItemsList';
+import { MenuItemUI } from '../menuItemUI';
 
 const setupMockBounds = (t: number, l: number, vh = 1000, vw = 1000) => {
   HTMLElement.prototype.getBoundingClientRect = jest.fn(function (this: HTMLElement) {
@@ -129,5 +131,28 @@ describe('DropdownUI Component', () => {
     expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
     expect(removeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
     removeSpy.mockRestore();
+  });
+
+  test('DropdownUI должен применять кастомный класс к выпадающему меню', () => {
+    render(
+      <DropdownUI
+        isDropdownOpen={true}
+        trigger={<div>T</div>}
+        onClick={() => {}}
+        dropdownClassName="my-dropdown"
+      >
+        <div>Content</div>
+      </DropdownUI>
+    );
+    expect(screen.getByTestId('dropdown')).toHaveClass('my-dropdown');
+  });
+
+  test('компоненты меню должны принимать кастомные className', () => {
+    const mockItem = { label: 'Test', icon: <div />, onClick: () => {} };
+    render(<MenuItemUI {...mockItem} className="custom-item-class" />);
+    expect(screen.getByTestId('menu-item')).toHaveClass('custom-item-class');
+
+    render(<MenuItemsList items={[mockItem]} className="custom-list-class" />);
+    expect(screen.getByTestId('menu-list')).toHaveClass('custom-list-class');
   });
 });

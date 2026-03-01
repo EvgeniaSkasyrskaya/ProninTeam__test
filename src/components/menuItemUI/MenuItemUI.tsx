@@ -1,5 +1,5 @@
 import styles from './MenuItemUI.module.css';
-import React, { type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 export type MenuItemUIProps = {
   className?: string;
@@ -14,6 +14,7 @@ export const MenuItemUI: React.FC<MenuItemUIProps> = ({ label, icon, onClick, cl
       className={
         className ? `${styles.menuItem__container} ${className}` : styles.menuItem__container
       }
+      data-testid="menu-item"
     >
       <button className={styles.menuItem__button} onClick={onClick}>
         <p className={styles.menuItem__text}>{label}</p>
