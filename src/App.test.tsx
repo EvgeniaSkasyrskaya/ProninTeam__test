@@ -26,7 +26,7 @@ describe('App Integration Tests', () => {
       expect(screen.getByText(/Поделиться в социальных сетях/i)).toBeInTheDocument();
     });
 
-    fireEvent.click(document.body);
+    fireEvent.click(triggers[0]);
     await waitFor(() => {
       expect(screen.queryByText(/Поделиться в социальных сетях/i)).not.toBeInTheDocument();
     });
